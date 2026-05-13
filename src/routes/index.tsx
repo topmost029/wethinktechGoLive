@@ -59,16 +59,16 @@ function LoginPage() {
 
       if (!res.ok || !data.verified) {
         setError(data.error ?? "Sign-in failed. Please try again.");
+        setLoading(false);
         return;
       }
 
       // Step 2: credentials are valid — do a real browser form POST to GpsGate.
       // This lets GpsGate set its own session cookie and redirect to the dashboard.
+      // Keep the spinner going while the browser navigates away.
       if (gpsUsernameRef.current) gpsUsernameRef.current.value = username;
       if (gpsPasswordRef.current) gpsPasswordRef.current.value = password;
       gpsFormRef.current?.submit();
-
-      // Keep the spinner going while the browser navigates away.
     } catch {
       setError("Network error. Please check your connection.");
       setLoading(false);
